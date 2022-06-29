@@ -63,3 +63,20 @@
   align-items: center;
   margin-bottom: 30px;
 }
+
+#grid {
+  display: grid;
+  grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+  grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+  column-gap: 5px;
+  row-gap: 5px;
+  background: darkblue;
+  width: max-content;
+  padding: 5px;
+  position: relative;
+}
+
+.grid-block {
+  /* background: lightskyblue; */
+  border-radius: 3px;
+}
