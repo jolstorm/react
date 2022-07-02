@@ -1,9 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import AppContext from "./Contexts/AppContext";
 function Block(props) {
   const { blockIndex } = props;
   const {
     ships,
+    setShips,
     index,
     setIndex,
     blockState,
@@ -11,6 +12,7 @@ function Block(props) {
     shipNames,
     setShipNames,
     orientation,
+    setHidden,
   } = useContext(AppContext);
 
   const highlightBlocks = () => {
@@ -66,8 +68,6 @@ function Block(props) {
 
   const removeHiglightedBlocks = () => {
     if (shipNames.length === 0) return;
-    console.log(shipNames);
-    console.log(index);
     const length = ships[shipNames[index]].size;
     let n = Array.from(blockState);
     let flag = true;
@@ -122,6 +122,7 @@ function Block(props) {
     const length = ships[shipNames[index]].size;
     let n = Array.from(blockState);
     let flag = true;
+    let coordinates = [];
     function check(value) {
       while (value % 10 !== 0) {
         value++;
@@ -137,6 +138,7 @@ function Block(props) {
         }
         if (flag) {
           for (let i = blockIndex; i < blockIndex + length; i = i + 1) {
+            coordinates.push(i);
             n[i - 1][2] = true;
           }
         }
@@ -158,15 +160,22 @@ function Block(props) {
             i <= blockIndex + (length - 1) * 10;
             i = i + 10
           ) {
+            coordinates.push(i);
             n[i - 1][2] = true;
           }
         }
       }
     }
-    shipNames.splice(index, 1);
-    setShipNames(shipNames);
+    setHidden((prev) => (prev ? true : false));
+    let duplicate = JSON.parse(JSON.stringify(ships));
+    duplicate[shipNames[index]].coordinates = coordinates;
+    setShips(duplicate);
+    let b = [...shipNames];
+    b.splice(index, 1);
+    setShipNames(b);
     setIndex((prev) => {
       if (prev > shipNames.length - 1) return shipNames.length - 1;
+      return prev;
     });
     setBlockState(n);
   };
@@ -177,7 +186,9 @@ function Block(props) {
       style={{ background: props.background }}
       onMouseEnter={highlightBlocks}
       onMouseLeave={removeHiglightedBlocks}
-      onClick={setShipCoordinates}
+      onClick={() => {
+        setShipCoordinates();
+      }}
     ></div>
   );
 }

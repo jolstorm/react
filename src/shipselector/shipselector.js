@@ -5,7 +5,7 @@ import Chevronright from "../images/chevron-right.svg";
 import AppContext from "../Contexts/AppContext";
 
 function ShipSelector(props) {
-  const { ships } = useContext(AppContext);
+  const { index, shipNames } = useContext(AppContext);
   const { changeShipOrientation, setIndex } = props;
   const ship = useRef();
   function rotate() {
@@ -33,7 +33,7 @@ function ShipSelector(props) {
   }
   useEffect(() => {
     changeShipOrientation();
-    console.log(ships[props.shipNames[props.index]]);
+    // console.log(ships[props.shipNames[props.index]]);
   }, [props.orientation]);
   return (
     <div id={props.id}>
@@ -50,7 +50,7 @@ function ShipSelector(props) {
         onClick={incIndex}
       />
       <div id="ship" ref={ship}>
-        {props.shipNames[props.index]}
+        {shipNames.length > 0 ? shipNames[index] : "All Selected"}
       </div>
       <Button buttonText="Rotate" id="rotate-button" onClick={rotate} />
     </div>
