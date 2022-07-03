@@ -64,7 +64,7 @@ function App() {
 
         <div className="buttons">
           <Button
-            buttonText="Hide"
+            buttonText={`${hidden ? "Show" : "Hide"}`}
             style={{ width: "50px" }}
             onClick={() => {
               setHidden(!hidden);
@@ -73,7 +73,7 @@ function App() {
           <Button
             buttonText="Start Game"
             style={{ width: "100px" }}
-            disabled={true}
+            disabled={shipNames.length > 0 ? true : false}
           ></Button>
         </div>
 
@@ -83,11 +83,10 @@ function App() {
               <Block
                 blockIndex={index + 1}
                 background={
-                  value[2] === true
-                    ? "black"
-                    : value[1] === true
-                    ? "black"
-                    : "lightskyblue"
+                  // value[2] === true
+                  //   ? "black"
+                  //   :
+                  value[1] ? "black" : "lightskyblue"
                 }
               ></Block>
             );

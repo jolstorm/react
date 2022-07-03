@@ -79,13 +79,15 @@ function Block(props) {
     }
     if (orientation === "H") {
       if (blockIndex + length - 1 <= check(blockIndex)) {
-        for (let i = blockIndex; i < blockIndex + length; i = i + 1) {
+        for (let i = blockIndex; i <= blockIndex + length; i = i + 1) {
           if (blockState[i - 1][2] === true) {
+            // console.log(i);
             flag = false;
           }
         }
         if (flag) {
-          for (let i = blockIndex; i < blockIndex + length; i = i + 1) {
+          for (let i = blockIndex; i <= blockIndex + length; i = i + 1) {
+            console.log(i);
             n[i - 1][1] = false;
           }
         }
@@ -102,11 +104,8 @@ function Block(props) {
           }
         }
         if (flag) {
-          for (
-            let i = blockIndex;
-            i <= blockIndex + (length - 1) * 10;
-            i = i + 10
-          ) {
+          for (let i = blockIndex; i <= blockIndex + length * 10; i = i + 10) {
+            console.log(i);
             n[i - 1][1] = false;
           }
         }
@@ -140,6 +139,7 @@ function Block(props) {
           for (let i = blockIndex; i < blockIndex + length; i = i + 1) {
             coordinates.push(i);
             n[i - 1][2] = true;
+            n[i - 1][1] = false;
           }
         }
       }
@@ -161,11 +161,16 @@ function Block(props) {
             i = i + 10
           ) {
             coordinates.push(i);
+
             n[i - 1][2] = true;
+            n[i - 1][1] = false;
           }
         }
       }
     }
+    // if (shipNames.length === 1) {
+    //   removeHiglightedBlocks();
+    // }
     setHidden((prev) => (prev ? true : false));
     let duplicate = JSON.parse(JSON.stringify(ships));
     duplicate[shipNames[index]].coordinates = coordinates;

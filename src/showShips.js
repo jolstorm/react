@@ -4,14 +4,14 @@ import AppContext from "./Contexts/AppContext";
 function Showships() {
   const { ships } = useContext(AppContext);
 
-  let style = {
-    top: 0,
-    left: 0,
-    height: 0,
-    width: 0,
-  };
   let ret = Object.keys(ships).map((ship, index, arr) => {
     if (ships[ship].coordinates.length > 0) {
+      let style = {
+        top: 0,
+        left: 0,
+        height: 0,
+        width: 0,
+      };
       const o = ships[ship].orientation; // Orientation
       const l = ships[ship].size; //Length of ship
       const sc = ships[ship].coordinates[0]; //Start Coordinates
@@ -29,11 +29,7 @@ function Showships() {
       style.left = `${(lc - 1) * 40 + lc * 5}px`;
       // If key with value Date.now() is added here then something is working.Check.
       return (
-        <div
-          className="set"
-          style={style}
-          key={Date.now() + Math.random() * 111111}
-        >
+        <div className="set" style={style}>
           {arr[index]}
         </div>
       );
