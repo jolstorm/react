@@ -76,7 +76,6 @@
 }
 
 .grid-block {
-  /* background: lightskyblue; */
   border-radius: 3px;
 }
 
@@ -95,4 +94,12 @@
   font-size: 16px;
   font-weight: bold;
   line-height: 14px;
+}
+
+.explode {
+  background: orange !important;
+}
+.miss {
+  background: lightgrey !important;
+  opacity: 0.5;
 }

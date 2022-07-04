@@ -32,6 +32,9 @@ function ShipSelector(props) {
     });
   }
   useEffect(() => {
+    console.log(index);
+  }, [index]);
+  useEffect(() => {
     changeShipOrientation();
     // console.log(ships[props.shipNames[props.index]]);
   }, [props.orientation]);

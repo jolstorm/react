@@ -1,7 +1,9 @@
-import { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import AppContext from "./Contexts/AppContext";
-function Block(props) {
+
+const Block = React.forwardRef((props, ref) => {
   const { blockIndex } = props;
+  const currentBlock = useRef();
   const {
     ships,
     setShips,
@@ -13,6 +15,9 @@ function Block(props) {
     setShipNames,
     orientation,
     setHidden,
+    startGame,
+    hitCount,
+    setHitCount,
   } = useContext(AppContext);
 
   const highlightBlocks = () => {
@@ -31,6 +36,7 @@ function Block(props) {
       if (blockIndex + length - 1 <= check(blockIndex)) {
         for (let i = blockIndex; i < blockIndex + length; i = i + 1) {
           if (blockState[i - 1][2] === true) {
+            console.log(i);
             flag = false;
           }
         }
@@ -79,15 +85,13 @@ function Block(props) {
     }
     if (orientation === "H") {
       if (blockIndex + length - 1 <= check(blockIndex)) {
-        for (let i = blockIndex; i <= blockIndex + length; i = i + 1) {
+        for (let i = blockIndex; i < blockIndex + length; i = i + 1) {
           if (blockState[i - 1][2] === true) {
-            // console.log(i);
             flag = false;
           }
         }
         if (flag) {
           for (let i = blockIndex; i <= blockIndex + length; i = i + 1) {
-            console.log(i);
             n[i - 1][1] = false;
           }
         }
@@ -105,7 +109,6 @@ function Block(props) {
         }
         if (flag) {
           for (let i = blockIndex; i <= blockIndex + length * 10; i = i + 10) {
-            console.log(i);
             n[i - 1][1] = false;
           }
         }
@@ -168,9 +171,7 @@ function Block(props) {
         }
       }
     }
-    // if (shipNames.length === 1) {
-    //   removeHiglightedBlocks();
-    // }
+
     setHidden((prev) => (prev ? true : false));
     let duplicate = JSON.parse(JSON.stringify(ships));
     duplicate[shipNames[index]].coordinates = coordinates;
@@ -183,19 +184,60 @@ function Block(props) {
       return prev;
     });
     setBlockState(n);
+    //State changes need to be in the correct order
   };
+
+  function hitOrMiss() {
+    let boom = false;
+    Object.values(ships).forEach((ship) => {
+      ship.coordinates.forEach((coordinate) => {
+        if (coordinate === blockIndex && blockState[blockIndex - 1][2]) {
+          ref.current.currentTime = 0;
+          ref.current.play();
+          console.log("Adding explode class");
+          currentBlock.current.classList.add("explode");
+          // This was not working without !important in CSS because react renders inline style
+          // currentBlock.current.style.background = "orange";
+          //This will also work
+
+          //Moved setHitCount from here to line 210 because forEach is a function and when the return statement executes the useEffect runs before the class addition to the block.
+          boom = true;
+          blockState[blockIndex - 1][2] = false;
+          return;
+        }
+      });
+      if (boom) {
+        //setHitCount was used here but it was updating the state 5 times regardless of the conditional statement so be careful about using state inside forEach or other loops
+        return;
+      }
+    });
+
+    if (!boom) {
+      if (!currentBlock.current.classList.contains("explode")) {
+        currentBlock.current.classList.add("miss");
+        return;
+      }
+    } else {
+      setHitCount((prev) => prev + 1);
+    }
+  }
 
   return (
     <div
+      ref={currentBlock}
       className="grid-block"
       style={{ background: props.background }}
       onMouseEnter={highlightBlocks}
       onMouseLeave={removeHiglightedBlocks}
       onClick={() => {
-        setShipCoordinates();
+        !startGame
+          ? setShipCoordinates()
+          : hitCount < 17
+          ? props.op(hitOrMiss)()
+          : alert("Game is over");
       }}
     ></div>
   );
-}
+});
 
 export default Block;
