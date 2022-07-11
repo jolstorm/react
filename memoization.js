@@ -19,5 +19,5 @@ function a(b, c, d) {
   return cacheValue;
 }
 
-console.log(...a(4, "a", true));
+console.log(...a(4, ">", true));
 console.log(...a(4, "a", true));

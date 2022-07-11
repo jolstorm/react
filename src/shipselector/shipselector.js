@@ -31,13 +31,17 @@ function ShipSelector(props) {
       }
     });
   }
-  useEffect(() => {
-    console.log(index);
-  }, [index]);
+  // useEffect(() => {
+
+  // }, [index]);
   useEffect(() => {
     changeShipOrientation();
     // console.log(ships[props.shipNames[props.index]]);
   }, [props.orientation]);
+  // useEffect(() => {
+  //   console.log(shipNames.length);
+  //   console.log(index);
+  // }, [shipNames, index]);
   return (
     <div id={props.id}>
       <Button

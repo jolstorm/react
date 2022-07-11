@@ -14,10 +14,13 @@ const Block = React.forwardRef((props, ref) => {
     shipNames,
     setShipNames,
     orientation,
+    setOrientation,
     setHidden,
     startGame,
     hitCount,
     setHitCount,
+    hitBlock,
+    setHitBlock,
   } = useContext(AppContext);
 
   const highlightBlocks = () => {
@@ -36,7 +39,6 @@ const Block = React.forwardRef((props, ref) => {
       if (blockIndex + length - 1 <= check(blockIndex)) {
         for (let i = blockIndex; i < blockIndex + length; i = i + 1) {
           if (blockState[i - 1][2] === true) {
-            console.log(i);
             flag = false;
           }
         }
@@ -74,6 +76,7 @@ const Block = React.forwardRef((props, ref) => {
 
   const removeHiglightedBlocks = () => {
     if (shipNames.length === 0) return;
+
     const length = ships[shipNames[index]].size;
     let n = Array.from(blockState);
     let flag = true;
@@ -179,11 +182,16 @@ const Block = React.forwardRef((props, ref) => {
     let b = [...shipNames];
     b.splice(index, 1);
     setShipNames(b);
+    console.log(shipNames);
     setIndex((prev) => {
-      if (prev > shipNames.length - 1) return shipNames.length - 1;
+      if (prev === b.length) return b.length - 1;
       return prev;
     });
+    console.log(index);
     setBlockState(n);
+    if (shipNames.lenght === 0) {
+      setOrientation("H");
+    }
     //State changes need to be in the correct order
   };
 
@@ -194,8 +202,10 @@ const Block = React.forwardRef((props, ref) => {
         if (coordinate === blockIndex && blockState[blockIndex - 1][2]) {
           ref.current.currentTime = 0;
           ref.current.play();
-          console.log("Adding explode class");
-          currentBlock.current.classList.add("explode");
+          setHitBlock((prev) => {
+            prev.push(coordinate);
+            return prev;
+          });
           // This was not working without !important in CSS because react renders inline style
           // currentBlock.current.style.background = "orange";
           //This will also work
@@ -222,10 +232,14 @@ const Block = React.forwardRef((props, ref) => {
     }
   }
 
+  const classes = `grid-block${
+    hitBlock.includes(blockIndex) ? " explode" : ""
+  }`;
+
   return (
     <div
       ref={currentBlock}
-      className="grid-block"
+      className={classes}
       style={{ background: props.background }}
       onMouseEnter={highlightBlocks}
       onMouseLeave={removeHiglightedBlocks}
@@ -233,7 +247,7 @@ const Block = React.forwardRef((props, ref) => {
         !startGame
           ? setShipCoordinates()
           : hitCount < 17
-          ? props.op(hitOrMiss)()
+          ? hitOrMiss()
           : alert("Game is over");
       }}
     ></div>
