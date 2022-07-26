@@ -1,10 +1,8 @@
-// let string =
-//   'SAMple Strin""g: !@# Yolo ~`\'>>>>>?????????}}⚔️}}}}}}}}}}}}}{}{}{}:"';
-let string1 =
-  'SAMple Strin""g: !@# Yolo00000000000432 ~`\'>>>>>?????????}}⚔️}}}}}}}}}}}}}{}{}{}:"';
+let string =
+  'SAMple Strin""g: !@# Yolo ~`\'>>>>>?????????}}⚔️}}}}}}}}}}}}}{}{}{}:"';
 let jstring =
   "SAMple文字列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列列v：！@＃Yolo 00000000000432〜 `'>> >>>?????????}}⚔️}}}}}}}}}}}}}{} {} {}：\"";
-let gstring =
+let gjstring =
   "સેમ્પલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલલ સ્ટ્રિંગ: !@# યોલો 00000000000432 ~`'>>>>????????????}}⚔️}}}}}}}}}}}}{}{}{}:\"";
 function maxCount(str) {
   let characters = {};
@@ -39,17 +37,15 @@ function maxCount1(str) {
       characters[str[index]] = 1;
       if (characters.top[0] === "") characters.top = [str[index], 1];
     }
-    // console.log(characters.top);
   }
   return characters.top;
 }
 
-function maxCount2(str) {}
 let start = Date.now();
-console.log(maxCount1(gstring));
+console.log(maxCount1(jstring));
 let end = Date.now();
 console.log(`Time taken by maxCount1: ${end - start}ms`);
 start = Date.now();
-console.log(maxCount(gstring));
+console.log(maxCount(jstring));
 end = Date.now();
 console.log(`Time taken by maxCount: ${end - start}ms`);

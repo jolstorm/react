@@ -1,10 +1,12 @@
 // import ApiComponent from "./apiComponent";
-import Game from "./Game";
+// import Game from "./Game";
+import Slider from "./Slider";
 function App() {
   return (
     <>
-      <Game></Game>
-      <Game></Game>
+      {/* <Game></Game>
+      <Game></Game> */}
+      <Slider />
     </>
   );
 }
