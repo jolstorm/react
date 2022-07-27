@@ -1,0 +1,17 @@
+.menu {
+  width: 30vw;
+}
+
+.menu ul {
+  list-style-type: none;
+}
+
+.dropdown {
+  margin-left: -30px;
+}
+
+li {
+  border: 1px solid black;
+  width: 50%;
+  text-align: center;
+}

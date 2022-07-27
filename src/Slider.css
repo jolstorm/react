@@ -12,16 +12,16 @@ body {
 
 .container {
   /* margin: 0 auto; */
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 
-.slider-cont {
+/* .slider-cont {
   overflow: hidden;
-}
+} */
 .slider {
   width: 100%;
   display: flex;
-  /* overflow-x: scroll; */
+  overflow-x: scroll;
 }
 
 .slider::-webkit-scrollbar {
@@ -32,9 +32,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: black;
   font-size: 24px;
   border: 1px solid black;
+  border-radius: 6px;
 }
 
 @media (min-width: 576px) {

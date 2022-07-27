@@ -21,7 +21,7 @@ const cards = [
   "div17",
   "div18",
   "div19",
-  "div20",
+  "div20 ",
   // "div11",
   // "div11",
   // "div11",
@@ -81,11 +81,13 @@ function Slider() {
         return;
       }
     });
+    console.log(rowRef.current.scrollLeft);
   }, [l]);
   useEffect(() => {
     console.log("Mounting");
     window.addEventListener("resize", handleResize);
     handleResize();
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -103,37 +105,53 @@ function Slider() {
     ];
   }, [cardWidth]);
 
+  // const scroll = (dir) => {
+  //   if (dir === "r") {
+  //     if (left.current <= rowWidth.current - contRef.current.clientWidth) {
+  //       count.current++;
+  //       left.current += scrollOffset[0];
+  //       rowRef.current.style.transform = `translateX(-${left.current}px)`;
+  //     }
+  //   } else {
+  //     if (left.current > 0) {
+  //       left.current -= scrollOffset[0];
+  //       rowRef.current.style.transform = `translateX(-${left.current}px)`;
+  //     }
+  //   }
+  //   console.log(rowRef.current.style.transform);
+  //   console.log(left.current);
+  // };
   const scroll = (dir) => {
     if (dir === "r") {
-      if (left.current <= rowWidth.current - contRef.current.clientWidth) {
-        count.current++;
-        left.current += scrollOffset[0];
-        rowRef.current.style.transform = `translateX(-${left.current}px)`;
-      }
+      rowRef.current.scrollLeft = Math.round(
+        rowRef.current.scrollLeft + scrollOffset[1]
+      );
     } else {
-      if (left.current > 0) {
-        left.current -= scrollOffset[0];
-        rowRef.current.style.transform = `translateX(-${left.current}px)`;
-      }
+      rowRef.current.scrollLeft = Math.round(
+        rowRef.current.scrollLeft - scrollOffset[1]
+      );
     }
-    console.log(rowRef.current.style.transform);
-    console.log(left.current);
+    console.log(
+      rowRef.current.scrollLeft,
+      Math.round(rowRef.current.scrollLeft)
+    );
+    // console.log(scrollOffset[1]);
   };
   return (
     <div className="container">
-      <div className="slider-cont" ref={contRef}>
-        <div className="slider" ref={rowRef}>
-          {cards.map((card, index) => {
-            return (
-              <Card
-                content={card}
-                margin={index !== l - 1 ? currentMargin.current : 0}
-                width={cardWidth}
-              />
-            );
-          })}
-        </div>
+      {/* <div className="slider-cont" ref={contRef}> */}
+      <div className="slider" ref={rowRef}>
+        {cards.map((card, index) => {
+          return (
+            <Card
+              content={card}
+              margin={index !== l - 1 ? currentMargin.current : 0}
+              width={cardWidth}
+            />
+          );
+        })}
       </div>
+      {/* </div> */}
       <button onClick={() => scroll("l")}>Left</button>
       <button onClick={() => scroll("r")}>Right</button>
     </div>

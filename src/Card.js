@@ -8,7 +8,7 @@ function Card(props) {
       style={{
         height: "100px",
         minWidth: `${width}px`,
-        background: "blue",
+        background: "white",
         marginRight: `${margin}px`,
       }}
     >
